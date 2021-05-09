@@ -22,8 +22,7 @@ func TestAdvGoRoutine() {
 		fmt.Printf(" %v at time %v \n", "begin Anonymus func (1)", time.Since(start))
 		time.Sleep(100 * time.Millisecond)
 		fmt.Printf(" %v at time %v \n", "end Anonymus func (1)", time.Since(start))
-		//ms.ExitChannel <- true
-		ms.Stop()
+		ms.Stop(true)
 	}()
 
 	// Anonymus func (2)
@@ -32,8 +31,7 @@ func TestAdvGoRoutine() {
 
 		time.Sleep(50 * time.Millisecond)
 		fmt.Printf(" %v at time %v \n", "end Anonymus func (2)", time.Since(start))
-		//ms.ExitChannel <- false
-		ms.Stop()
+		ms.Stop(false)
 	}()
 
 	ms.Start()

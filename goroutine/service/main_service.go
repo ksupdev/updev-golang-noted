@@ -16,7 +16,7 @@ func NewMainService(executeTime time.Time) *MainService {
 }
 
 func (ms *MainService) Start() error {
-	//time.Sleep(40 * time.Millisecond)
+	// Create
 	ms.ExitChannel = make(chan bool, 1)
 	//fmt.Printf(" %v at time %v \n", "Start()", time.Since(ms.StartTime))
 	exit := false
@@ -28,11 +28,11 @@ func (ms *MainService) Start() error {
 		}
 		fmt.Printf(" %v at time %v \n", "Waiting .... value from ExitChannel ", time.Since(ms.StartTime))
 		select {
-		case <-ms.ExitChannel:
-			fmt.Printf(" (1) After recieve from case <-ms.ExitChannel  %v \n", time.Since(ms.StartTime))
-			data := <-ms.ExitChannel
-			fmt.Printf(" (2) After recieve from data := <-ms.ExitChannel  %v at time %v \n", strconv.FormatBool(data), time.Since(ms.StartTime))
-			exit = data
+		case data1 := <-ms.ExitChannel:
+			fmt.Printf(" (1) After recieve from case <-ms.ExitChannel [%v] at time %v \n", strconv.FormatBool(data1), time.Since(ms.StartTime))
+			data2 := <-ms.ExitChannel
+			fmt.Printf(" (2) After recieve from data := <-ms.ExitChannel [%v] at time %v \n", strconv.FormatBool(data2), time.Since(ms.StartTime))
+			exit = data2
 		}
 
 	}
@@ -40,9 +40,10 @@ func (ms *MainService) Start() error {
 }
 
 // Stop stop the services
-func (ms *MainService) Stop() {
+func (ms *MainService) Stop(isStop bool) {
 	if ms.ExitChannel == nil {
 		return
 	}
-	ms.ExitChannel <- true
+	ms.ExitChannel <- isStop
+	//ms.ExitChannel <- true
 }
