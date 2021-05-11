@@ -67,5 +67,9 @@ func testSwapValueV2(val1, val2 int) (reVal1, reVal2 int, message string) {
 	reVal1 = val1
 	reVal2 = val2
 	message = "process on testSwapValue"
-	return reVal1, reVal2, message
+
+	// If you decare the name for return value ,you will can return the empty like this code below
+	return
 }
+
+//

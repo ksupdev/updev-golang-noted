@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"updev/gobasic/functions"
+	"updev/gobasic/loop/for_loop"
 	"updev/gobasic/variable"
 )
 
@@ -13,13 +14,21 @@ func main() {
 	fmt.Println("[---- Variable Demo ----]")
 	variable.Demo()
 
+	fmt.Println("[---- Function Demo ----]")
 	demoFunc()
+
+	fmt.Println("[---- For loop Demo ----]")
+	demoForLoop()
 
 }
 
 func demoFunc() {
-	fmt.Println("[---- Function Demo ----]")
+
 	functions.RunDemoFunction()
 	functions.PublicFunc()
 
+}
+
+func demoForLoop() {
+	for_loop.DemoLoop()
 }
