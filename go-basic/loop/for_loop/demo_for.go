@@ -7,6 +7,8 @@ func DemoLoop() {
 	fnFor()
 
 	fnWhile()
+
+	fnWhileUsingBreak()
 }
 
 func fnFor() {
@@ -21,6 +23,19 @@ func fnWhile() {
 	for index < 5 {
 		index++
 		fmt.Printf("While Index Simple print index %d \n ", index)
+
+	}
+}
+
+func fnWhileUsingBreak() {
+	index := 1
+	for {
+
+		if index > 5 {
+			break
+		}
+		fmt.Printf("While Index Useing Break Simple print index %d \n ", index)
+		index++
 
 	}
 }
