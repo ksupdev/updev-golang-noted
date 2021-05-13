@@ -6,6 +6,7 @@ import (
 	"updev/gobasic/functions"
 	"updev/gobasic/if_else_switch_case"
 	"updev/gobasic/loop/for_loop"
+	"updev/gobasic/pointer"
 	"updev/gobasic/variable"
 )
 
@@ -28,6 +29,9 @@ func main() {
 	fmt.Println("[---- If else and Switch case Demo ----]")
 	dempIfElseSwithcCase()
 
+	fmt.Println("[---- Pointer Demo ----]")
+	demoPointer()
+
 }
 
 func demoFunc() {
@@ -47,4 +51,8 @@ func dempForEachWithRange() {
 
 func dempIfElseSwithcCase() {
 	if_else_switch_case.Demo()
+}
+
+func demoPointer() {
+	pointer.Demo()
 }
