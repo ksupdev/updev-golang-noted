@@ -1,5 +1,6 @@
 package main
 
+//https://golangbot.com/structs-instead-of-classes/
 import "fmt"
 
 func main() {
@@ -16,6 +17,19 @@ func main() {
 	// Show product after update
 	showProduct(p1)
 
+	//
+	//p1 = p1.clear()
+
+	fmt.Println("--- Show Struct function ---")
+	fmt.Println("Before discount")
+	showProduct(p1)
+	p1 = p1.setDiscount(5) // past value and
+	fmt.Println("After discount")
+	showProduct(p1)
+	p1 = p1.clear()
+	fmt.Println("Clear")
+	showProduct(p1)
+
 }
 
 type product struct {
@@ -25,8 +39,17 @@ type product struct {
 }
 
 // --- Defind product function ---
+// '(p product)' use for defind Struct owner
 func (p product) clear() product {
-	return product{}
+	p.price = 0
+	p.stock = 0
+
+	return p
+}
+
+func (p product) setDiscount(d int) product {
+	p.price = p.price - d
+	return p
 }
 
 // --- External func ---
