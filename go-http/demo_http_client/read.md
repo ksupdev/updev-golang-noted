@@ -1,0 +1,1 @@
+> go mod init updev/demo-http-client
