@@ -1,0 +1,4 @@
+[GIN-debug] GET    /                         --> main.main.func1 (4 handlers)
+[GIN-debug] GET    /profile                  --> main.main.func2 (4 handlers)
+[GIN-debug] Listening and serving HTTP on :85
+[GIN] 2021/05/17 - 14:18:49 | 200 |       74.73µs |             ::1 | GET      "/"
