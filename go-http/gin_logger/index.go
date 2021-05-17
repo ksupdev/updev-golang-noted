@@ -10,6 +10,8 @@ import (
 
 func main() {
 	r := gin.Default()
+	// Use for disable  Log output coloring
+	//gin.DisableConsoleColor()
 	count := 0
 
 	runningDir, _ := os.Getwd()
@@ -20,7 +22,28 @@ func main() {
 	gin.DefaultErrorWriter = errlogfile
 	gin.DefaultWriter = accesslogfile
 
-	r.Use(gin.Logger())
+	// Basic Logger
+	//r.Use(gin.Logger())
+
+	// Logger with format
+	/*
+		r.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
+			return fmt.Sprintf("%s [%s]  \"%s %s %s %d %s \"%s\" %s\"\n",
+				param.ClientIP,
+				param.TimeStamp.Format(time.RFC1123),
+				param.Method,
+				param.Path,
+				param.Request.Proto,
+				param.StatusCode,
+				param.Latency,
+				param.Request.UserAgent(),
+				param.ErrorMessage,
+			)
+		}))
+	*/
+
+	// Disable logging for "/profile"
+	r.Use(gin.LoggerWithWriter(gin.DefaultWriter, "/profile"))
 
 	r.GET("/", func(c *gin.Context) {
 		c.Data(http.StatusOK, "text/html; charset=utf-8", []byte("root"))
@@ -34,7 +57,7 @@ func main() {
 
 	r.GET("/profile", func(c *gin.Context) {
 		count = count + 1
-		accesslogfile.WriteString(fmt.Sprintf("Count : %d \n", count))
+		accesslogfile.WriteString(fmt.Sprintf("Count : %d ", count))
 		c.Data(http.StatusOK, "text/html; charset=utf-8", []byte("profile"))
 	})
 
