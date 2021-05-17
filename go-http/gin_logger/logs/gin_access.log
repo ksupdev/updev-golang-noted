@@ -2,3 +2,29 @@
 [GIN-debug] GET    /profile                  --> main.main.func2 (4 handlers)
 [GIN-debug] Listening and serving HTTP on :85
 [GIN] 2021/05/17 - 14:18:49 | 200 |       74.73µs |             ::1 | GET      "/"
+[GIN-debug] GET    /                         --> main.main.func1 (4 handlers)
+[GIN-debug] GET    /profile                  --> main.main.func2 (4 handlers)
+[GIN-debug] Listening and serving HTTP on :85
+Count : 1[GIN] 2021/05/17 - 14:36:50 | 200 |    1.514272ms |             ::1 | GET      "/profile"
+[GIN-debug] GET    /                         --> main.main.func1 (4 handlers)
+[GIN-debug] GET    /profile                  --> main.main.func2 (4 handlers)
+[GIN-debug] Listening and serving HTTP on :85
+Count : 1 
+[GIN] 2021/05/17 - 14:37:37 | 200 |     301.519µs |             ::1 | GET      "/profile"
+Count : 2 
+[GIN] 2021/05/17 - 19:13:48 | 200 |     384.149µs |             ::1 | GET      "/profile"
+[GIN-debug] GET    /                         --> main.main.func1 (4 handlers)
+[GIN-debug] GET    /profile                  --> main.main.func2 (4 handlers)
+[GIN-debug] Listening and serving HTTP on :85
+Count : 1 
+[GIN] 2021/05/18 - 00:59:13 | 200 |     431.917µs |             ::1 | GET      "/profile"
+[GIN-debug] GET    /                         --> main.main.func1 (4 handlers)
+[GIN-debug] GET    /error                    --> main.main.func2 (4 handlers)
+[GIN-debug] GET    /profile                  --> main.main.func3 (4 handlers)
+[GIN-debug] Listening and serving HTTP on :85
+[GIN] 2021/05/18 - 01:10:32 | 200 |     207.095µs |             ::1 | GET      "/error"
+[GIN-debug] GET    /                         --> main.main.func1 (4 handlers)
+[GIN-debug] GET    /error                    --> main.main.func2 (4 handlers)
+[GIN-debug] GET    /profile                  --> main.main.func3 (4 handlers)
+[GIN-debug] Listening and serving HTTP on :85
+[GIN] 2021/05/18 - 01:11:51 | 200 |    1.216029ms |             ::1 | GET      "/error"
