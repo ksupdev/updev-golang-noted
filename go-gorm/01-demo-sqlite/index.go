@@ -40,14 +40,22 @@ func main() {
 
 	// Read
 	var product Product
-	db.First(&product, 1) // Find product with integer primary key
+	db.First(&product, 1) // Find product with integer primary key (field : id)
 
 	// log to console
 	fmt.Println(product)
-	json, _ := json.MarshalIndent(product, "", " ")
-	fmt.Println(string(json))
+	json1, _ := json.MarshalIndent(product, "", " ")
+	fmt.Println(string(json1))
 
 	db.First(&product, "Code = ?", "D42") // find product with code D42
+
+	// Query with find array
+	/*
+		var products []Product
+		db.Find(&products, "code = ?", "D42")
+		json2, _ := json.MarshalIndent(products, "", " ")
+		fmt.Println(string(json2))
+	*/
 
 	// Update - update product's price to 200
 	db.Model(&product).Update("Price", 200)
