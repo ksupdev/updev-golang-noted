@@ -63,6 +63,13 @@ row := db.QueryRow(query ,sql.Name("id",id))
 > ตัวอย่างนี้ใช้ได้สำหรับ SQL SERVER เท่านั้น
 
 
+```golang
+query := "select id ,name from result where id=?"
+row := db.QueryRow(query ,id)
+```
+> ตัวอย่างนี้ใช้ได้สำหรับ MYSQL เท่านั้น
+
+
 ```golang 
 query := "select id ,name from result where id=@id"
 row := db.QueryRow(query ,sql.Name("id",id))
@@ -71,4 +78,33 @@ err := row.Scan(&result.Id ,$result.Name)
 ```
 
 ในการใช้ row.Scan นั้นจะไม่สนใจในส่วนของชื่อ แต่จะสนใจแค่ Index หรือลำดับของ pointer ที่ส่งเข้ามาเท่านั้น หรือก็คือ ส่งมาที่ ลำดับที่ 1 ก็จะได้ถูก mapping value จาก column ที่ 1 ที่มีการ select ออกมานั้นเอง
+
+
+## Create
+
+```golang
+func Create(data Result) error{
+    ....
+    ....
+    query := "insert into result (id ,name) values(?,?)"
+    result err := db.Exec(query ,data.Id data.Name)
+    if err != nil{
+        return err
+    }
+
+    // Use for get Id
+    // result.LastInsertId 
+    
+    affected, err := result.RowsAffcted
+    if err != nil{
+        return nil
+    }
+
+    if affected <= 0{
+        return errors.New("Cannot insert)
+    }
+
+    return nil
+}
+```
 
