@@ -108,3 +108,115 @@ func Create(data Result) error{
 }
 ```
 
+
+
+```golang
+func Update(data Result) error{
+    ....
+    ....
+    query := "update result set name=? where id=?"
+    result err := db.Exec(query ,data.Name ,data.Id)
+    if err != nil{
+        return err
+    }
+
+    // Use for get Id
+    // result.LastInsertId 
+    
+    affected, err := result.RowsAffcted
+    if err != nil{
+        return nil
+    }
+
+    if affected <= 0{
+        return errors.New("Cannot Update)
+    }
+
+    return nil
+}
+```
+
+
+```golang
+func Delete(id int) error{
+    ....
+    ....
+    query := "update from result where id=?"
+    result err := db.Exec(query ,id)
+    if err != nil{
+        return err
+    }
+
+    // Use for get Id
+    // result.LastInsertId 
+    
+    affected, err := result.RowsAffcted
+    if err != nil{
+        return nil
+    }
+
+    if affected <= 0{
+        return errors.New("Cannot Delete)
+    }
+
+    return nil
+}
+```
+
+Test use sqlx
+
+```golang
+func GetResultWithSqlX ([]Result ,error){
+    query := "select id ,name from result"
+    result := Result{}
+
+    err := db.Select(&result ,query)
+    if err != nill{
+        return nil ,err
+    }
+    return result ,nil
+
+}
+```
+
+
+## Transaction
+
+```golang
+func Create(data Result) error{
+
+    tx, err := db.Begin()
+    if err != nil{
+        return err
+    }
+    ....
+    ....
+    query := "insert into result (id ,name) values(?,?)"
+    result err := tx.Exec(query ,data.Id data.Name)
+    if err != nil{
+        return err
+    }
+
+    // Use for get Id
+    // result.LastInsertId 
+    
+    affected, err := result.RowsAffcted
+    if err != nil{
+        tx.Rollback()
+        return nil
+    }
+
+    if affected <= 0{
+        return errors.New("Cannot insert")
+    }
+
+    err := tx.Commit()
+    if err != nil{
+        return err
+    }
+    
+
+    return nil
+}
+```
+
