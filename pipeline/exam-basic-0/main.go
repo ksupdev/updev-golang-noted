@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"encoding/csv"
-	"fmt"
 	"io"
 	"log"
 	"os"
@@ -36,8 +35,9 @@ func getConstCustomerType() map[string]string {
 
 func main() {
 	log.Println("Say hi !")
-	c := loadData()
+	c := prepareData(loadData())
 
+	// waiting receipt value from chamel, The method will excute when chanel have send data
 	for data := range c {
 		log.Printf("%v", data)
 	}
@@ -61,7 +61,7 @@ func loadData() <-chan CsvData {
 			record, err := r.Read()
 
 			if err == io.EOF {
-				fmt.Println("EOF")
+				//fmt.Println("EOF")
 				break
 			}
 			if err != nil {
@@ -69,7 +69,7 @@ func loadData() <-chan CsvData {
 				continue
 			}
 
-			// log.Printf(" %v \n ", record[0])
+			log.Printf(" loadData => %v \n ", record[0])
 
 			chanCsv <- CsvData{
 				Id:        record[0],
@@ -78,9 +78,11 @@ func loadData() <-chan CsvData {
 				Email:     record[3],
 				Gender:    record[4],
 				IpAddress: record[5],
+				CustType:  record[6],
 			}
-			close(chanCsv)
 		}
+
+		close(chanCsv)
 
 	}()
 
@@ -88,11 +90,28 @@ func loadData() <-chan CsvData {
 
 }
 
-func prepareData() {
+func prepareData(csv <-chan CsvData) <-chan CustomerData {
+	custData := make(chan CustomerData)
 
+	go func() {
+		for row := range csv {
+
+			custData <- CustomerData{
+				Id:           row.Id,
+				Name:         row.FirstName + " " + row.LastName,
+				CustomerType: getConstCustomerType()[row.CustType],
+			}
+
+			log.Printf(" prepareData => %v \n ", row.FirstName+" "+row.LastName)
+			log.Printf(" prepareData => %v \n ", custData)
+		}
+		close(custData)
+	}()
+
+	return custData
 }
 
-func tranformData() {
+func tranformData(custData <-chan CustomerData) {
 
 }
 

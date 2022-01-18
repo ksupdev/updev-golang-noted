@@ -18,3 +18,8 @@ D:\> go run .
 [artical](https://nicksardo.wordpress.com/2018/05/24/playing-with-golang-and-csv-files/)
 
 [artical](https://zetcode.com/golang/csv/)
+
+[mock-api]("https://mockapi.io/projects/61790198aa7f3400174046b6")
+
+[api-concurrency](https://levelup.gitconnected.com/calling-multiple-apis-concurrently-in-go-goroutine-and-waitgroup-5535155902c3)
+[api-concurrency](https://marksalpeter.com/concurrent-api-patterns-in-go-52fcb5a9c681)

@@ -1,7 +1,22 @@
 package main
 
-import "fmt"
+import (
+	"log"
+)
+
+type CusUUID struct {
+	Id string
+}
 
 func main() {
-	fmt.Println("Hi this is example pipe line")
+	log.Println("Hi")
+	c := saveData(fetchData(
+		prepareData(
+			generateData(),
+		),
+	))
+
+	for data := range c {
+		log.Printf("Items saved: %+v", len(data.idsSaved))
+	}
 }
