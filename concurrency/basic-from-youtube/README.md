@@ -10,7 +10,7 @@ D:\> go run .
 ```
 
 
-### Channel
+## Channel
 
 ```golang
     func main() {
@@ -129,6 +129,162 @@ func count(thing string, c chan string) {
 
 
 ```
+
+## Select Channel
+
+```golang
+
+func main() {
+	c := make(chan string)
+
+	c <- "Hello"
+
+	msg := <-c
+
+	fmt.Println(msg)
+}
+
+===== output =====
+fatal error: all goroutines are asleep - deadlock!
+goroutine 1 [chan send]:
+main.main()
+```
+
+ที่ error นั้นเกิดจาก code นั้นทำงานอยู่ใน goroutine เดียวกันดังนั้นจะทำงานแบบเป็น sequen พอเจอคำสั่ง ``c <- "Hello"`` ก็จะมีการพยายามที่จะส่งค่า แต่ปัญหาก็คือ code ในส่วนที่จะรับค่าจาก channel ยังไม่ได้มีการทำงาน ดังนั้นเราสามารถทำการแก้ code ได้ 2 วิธี
+
+วิธีที่ 1 ทำการสร้าง goroutine เพื่อให้มีการทำงานที่แยกออกจาก main goroutine
+```golang
+func main() {
+	c := make(chan string)
+
+	go func() {
+		c <- "Hello"
+	}()
+
+	msg := <-c
+
+	fmt.Println(msg)
+}
+
+===== output =====
+Hello
+```
+
+
+วิธีที่ 2 คือการกำหนด buffer ให้กับ channel นั้นก็คือการกำหนด channel ให้ทำการ buffer ค่าเอาไว้ก่อนจนกว่าจะมีการ receive ไปนันเอง
+```golang
+func main() {
+	c := make(chan string, 1)
+
+	c <- "Hello"
+	msg := <-c
+
+	fmt.Println(msg)
+}
+
+===== output =====
+Hello
+```
+
+ข้อควรระวังในการใช้ buffer ก็คือ ถ้าเรากำหนดเป็น 1 หมายความว่ามันจะเก็บไว้ให้ได้แค่ 1 จนกว่าจะมีการดึงข้อมูลออกไปแล้วมีพื้นที่ว่างก็จะสามารถรับค่าใหม่ได้
+
+```golang
+func main() {
+	c := make(chan string, 1)
+
+	c <- "Hello"
+	msg := <-c
+
+	fmt.Println(msg)
+
+	c <- "Hello 1"
+
+	msg = <-c
+
+	fmt.Println(msg)
+
+	c <- "Hello 2"
+	msg = <-c
+
+	fmt.Println(msg)
+
+}
+
+===== output =====
+Hello
+Hello 1
+Hello 2
+```
+
+จาก code มันจะเป็นการ assign แล้วก็ recieve ออกซึ่งจะสามารถทำงานได้อย่างปกติ
+
+```golang
+func main() {
+	c := make(chan string, 1)
+
+	c <- "Hello"
+	msg := <-c
+
+	fmt.Println(msg)
+
+	c <- "Hello 1"
+	c <- "Hello 2"
+	msg = <-c
+	fmt.Println(msg)
+
+
+	msg = <-c
+	fmt.Println(msg)
+
+}
+
+===== output =====
+Hello
+fatal error: all goroutines are asleep - deadlock!
+```
+
+แต่แค่เราทำการ assign Hello1 และ Hello2 โดยที่เรายังไม่ได้ทำการดึงค่าออกจาก channel หรือก็คือ Buffer ยังเต็มอยู่นั้นเองก็จะทำให้ Error ทันที
+
+ซึ่งเราอาจจะทำการแก้ได้ โดยแค่ทำการเพิ่ม Buffer ให้กับ Channel ก็จะสามารถแก้ปัญหานั้นได้ทันที
+
+```golang
+func main() {
+	c1 := make(chan string)
+	c2 := make(chan string)
+
+	go func() {
+		for {
+			c1 <- "Every 500ms"
+			time.Sleep(time.Millisecond * 500)
+		}
+	}()
+
+	go func() {
+		for {
+			c2 <- "Every two Seconds"
+			time.Sleep(time.Second * 2)
+		}
+	}()
+
+	for {
+		fmt.Println(<-c1)
+		fmt.Println(<-c2)
+	}
+}
+===== output =====
+Every 500ms
+Every two Seconds
+Every 500ms
+Every two Seconds
+Every 500ms
+Every two Seconds
+```
+
+จาก code สิ่งที่ควรจะเป็นมันน่าจะเป็นการแสดงผลตามเวลา นั้นก็คือมีการ print every 500 MS ไปเลื่อยจนถึง 2 Second ถึงจะแสดง แต่การแสดงผลนั้นเป็นการแสดงผลแบบสลับกันแสดง
+
+ที่เป็นเช่นนี้เนื่องมาจาก infinity loop มีการแสดงผลหลังจาก ``<-c1`` จะมีการดึงค่าปกติ แต่มันจะถูก Blocking ``<-c2`` คือต้องรอ 2 Second ถึงจะมีค่าส่งมาเพราะเหตุนี้จึงได้ผลลัพธ์การแสดงที่ดูสลับกัน
+
+
 
 
 
