@@ -1,0 +1,7 @@
+[GIN-debug] GET    /                         --> main.main.func1 (4 handlers)
+[GIN-debug] GET    /error                    --> main.main.func2 (4 handlers)
+[GIN-debug] GET    /profile                  --> main.main.func3 (4 handlers)
+[GIN-debug] Listening and serving HTTP on :85
+Count : 1 [GIN] 2021/05/18 - 01:39:24 | 200 |     573.177µs |             ::1 | GET      "/error"
+[GIN] 2021/05/18 - 01:42:08 | 200 |    3.975927ms |             ::1 | GET      "/error"
+Count : 4 
