@@ -32,3 +32,6 @@ go get go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp
 - Star micro_serv01 by ``go run .\micro_serv01\main.go``
 - test with ``\docs\dev.http``
 - Check jager search ``http://localhost:16686/search``
+
+[thai-ref](https://github.com/atthavit/myblog/tree/master/try-opentelemetry/delivery)
+[inter-ref](https://github.com/eqfarhad/distributed_tracing)
