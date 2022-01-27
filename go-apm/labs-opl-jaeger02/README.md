@@ -31,3 +31,4 @@ go get go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp
 - Star main_serv by ``go run .\main_serv\main.go``
 - Star micro_serv01 by ``go run .\micro_serv01\main.go``
 - test with ``\docs\dev.http``
+- Check jager search ``http://localhost:16686/search``
