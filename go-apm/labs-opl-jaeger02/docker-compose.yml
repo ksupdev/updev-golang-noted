@@ -1,0 +1,42 @@
+version: '3'
+services:
+  # nats:
+  #   image: nats:2.2
+  #   ports:
+  #     - '4222:4222'
+  jaeger:
+    image: jaegertracing/all-in-one:1.22.0
+    environment:
+      SPAN_STORAGE_TYPE: memory
+    ports:
+      - "14268:14268"
+      - "16686:16686"
+  # platform:
+  #   build: .
+  #   command:
+  #     - go
+  #     - run
+  #     - ./cmd/platform/
+  #   ports:
+  #     - 8001:8001
+  #   volumes:
+  #     - ./:/app:ro
+  #   environment:
+  #     NATS_URL: nats://nats:4222
+  #     RESTAURANT_REST: http://restaurant:8002
+  #     RESTAURANT_GRPC: restaurant:9002
+  #     JAEGER_URL: http://jaeger:14268/api/traces
+  # restaurant:
+  #   build: .
+  #   # ports:
+  #   #   - 8002:8002
+  #   #   - 9002:9002
+  #   command:
+  #     - go
+  #     - run
+  #     - ./cmd/restaurant/
+  #   volumes:
+  #     - ./:/app:ro
+  #   environment:
+  #     NATS_URL: nats://nats:4222
+  #     JAEGER_URL: http://jaeger:14268/api/traces

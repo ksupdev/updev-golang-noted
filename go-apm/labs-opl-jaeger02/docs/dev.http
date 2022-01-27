@@ -1,0 +1,12 @@
+### Mainservice Request
+GET http://localhost:8010/serv-main HTTP/1.1
+Content-Type: application/json
+
+### Direct request Microservice 01
+POST http://localhost:8021/serv-01 HTTP/1.1
+Content-Type: application/json
+
+{
+    "who_request":"puza",
+    "datsa":"H078"
+}
