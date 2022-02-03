@@ -150,7 +150,7 @@ goroutine 1 [chan send]:
 main.main()
 ```
 
-ที่ error นั้นเกิดจาก code นั้นทำงานอยู่ใน goroutine เดียวกันดังนั้นจะทำงานแบบเป็น sequen พอเจอคำสั่ง ``c <- "Hello"`` ก็จะมีการพยายามที่จะส่งค่า แต่ปัญหาก็คือ code ในส่วนที่จะรับค่าจาก channel ยังไม่ได้มีการทำงาน ดังนั้นเราสามารถทำการแก้ code ได้ 2 วิธี
+ที่ error นั้นเกิดจาก code นั้นทำงานอยู่ใน goroutine เดียวกันดังนั้นจะทำงานแบบเป็น sequen พอเจอคำสั่ง ``c <- "Hello"`` ก็จะมีการพยายามที่จะส่งค่า แต่ปัญหาก็คือ code ในส่วนที่จะรับค่าจาก channel ยังไม่ได้มีการทำงาน `หรืออีกนัยหนึ่งเราอาจจะบอกได้ว่าการที่จะใช้งาน channel นั้นคือท่อที่จะต้องมีทางเข้าและทางออกเสมอ ซึ่งการทำงานที่ main goroutine นั้นมันจะเป็นการทำงานที่เป็น sequence ดังนั้นมันจะเจอทางเข้าของข้อมูลและพอข้อมูลเข้าไปก็ไม่เจอทางออกเพราะในท่อนั้นมันไม่มีที่เก็บอะไร จึงทำให้ error ` ดังนั้นเราสามารถทำการแก้ code ได้ 2 วิธี
 
 วิธีที่ 1 ทำการสร้าง goroutine เพื่อให้มีการทำงานที่แยกออกจาก main goroutine
 ```golang
@@ -267,6 +267,7 @@ func main() {
 	}()
 
 	for {
+		// Sequence running
 		fmt.Println(<-c1)
 		fmt.Println(<-c2)
 	}
@@ -283,6 +284,50 @@ Every two Seconds
 จาก code สิ่งที่ควรจะเป็นมันน่าจะเป็นการแสดงผลตามเวลา นั้นก็คือมีการ print every 500 MS ไปเลื่อยจนถึง 2 Second ถึงจะแสดง แต่การแสดงผลนั้นเป็นการแสดงผลแบบสลับกันแสดง
 
 ที่เป็นเช่นนี้เนื่องมาจาก infinity loop มีการแสดงผลหลังจาก ``<-c1`` จะมีการดึงค่าปกติ แต่มันจะถูก Blocking ``<-c2`` คือต้องรอ 2 Second ถึงจะมีค่าส่งมาเพราะเหตุนี้จึงได้ผลลัพธ์การแสดงที่ดูสลับกัน
+
+โดยการแก้นั้นเราจะมีการ implement `select` เพื่อเป็นตัวค่อยดูว่าค่าที่ส่งมานั้นมาจาก channel ไหนและจะไปทำงานของส่วนไหนก่อน หรือก็คือการจัดลำดับการทำงานตามที่มีการส่งข้อมูลมาจากแต่ละ channel นั้นเอง
+
+```golang
+func main() {
+	c1 := make(chan string)
+	c2 := make(chan string)
+
+	go func() {
+		for {
+			c1 <- "Every 500ms"
+			time.Sleep(time.Millisecond * 500)
+		}
+	}()
+
+	go func() {
+		for {
+			c2 <- "Every two Seconds"
+			time.Sleep(time.Second * 4)
+		}
+	}()
+
+	for {
+		select {
+		case msg1 := <-c1:
+			fmt.Println(msg1)
+		case msg2 := <-c2:
+			fmt.Println(msg2)
+		}
+	}
+}
+
+===== output =====
+Every two Seconds
+Every 500ms
+Every 500ms
+Every 500ms
+Every 500ms
+Every 500ms
+Every 500ms
+Every 500ms
+Every 500ms
+Every two Seconds
+```
 
 
 
