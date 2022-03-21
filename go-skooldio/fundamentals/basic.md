@@ -162,4 +162,73 @@ array ใน go จะเป็น immutable คือหลังจากก�
 ![alt text](images/2565-03-15-22.02.34.png)
 
 
+## Variadic Function
+
+คือ function ที่จะข้อมูลที่เป็น `slide` ผ่าน `... data-type` 
+
+```golang
+func variadic(v ...string) []string{
+    var v []string
+}
+
+// Example
+
+func variadic(s ...string) []string{
+    for i := 0; i
+}
+
+```
+
+## MAP 
+หรือก็คือ key value โดยจะใช้งานเหมือน slice
+```golang
+var m map[string]string
+
+m1 := mal[string]string{
+    "a":"apple",
+    "a":"apple"
+}
+
+fmt.Println(m1["a"])
+
+```
+
+default value ของ map ถ้าไม่ได้มีการใช้คำสั่ง make หรือการสร้างแบบ short จะมีค่า default เป็น `nil`
+
+## Struct
+
+```golang
+type Data struct{
+    Id int
+    Name String
+}
+
+func (d Data) getDataInStruct(){
+    fnt.Println(d.Id)
+}
+
+func (d *Data) changeDataInStruct(){
+    d.Id = 2
+}
+
+```
+- `(d Data)` Receiver => ถ้ากำหนดแบบนี้ จะไม่มีการไปเปลี่ยนแปลงค่าใน Struct
+- `(d *Data)` Pointer Receiver => ถ้ากำหนดแบบนี้ จะสามารถกลับไปอัพเดตค่าใน Struct ได้
+
+## Interface
+
+- Empty interface หรือก็คือ interface ที่ไม่ได้กำหนดโครงสร้างซึ่งเราสามารถกำหนดค่าอะไรให้มันก็ได้
+```golang
+    var a interface{}
+
+    a = 10
+    a = "ten"
+    a = true
+    a book()
+
+```
+
+
+
+
 
