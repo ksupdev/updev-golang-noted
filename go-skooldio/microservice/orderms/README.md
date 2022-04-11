@@ -36,3 +36,6 @@ run command:
 > make offline-container
 > make online-container
 > go run cmd/orderfe/order.go
+
+## Download Sample data
+https://eforexcel.com/wp/downloads-18-sample-csv-files-data-sets-for-testing-sales/
