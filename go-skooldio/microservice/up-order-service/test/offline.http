@@ -1,0 +1,18 @@
+POST http://localhost:9000/api/v1/orders
+
+{
+    "region":        "Sub-Saharan Africa",
+    "country":       "South Africa",
+    "item_type":      "Fruits",
+    "sales_channel":  "Offline",
+    "order_priority": "M",
+    "order_date":     "2012-07-27T09:00:00.000Z",
+    "order_id":       443368995,
+    "ship_date":      "2012-07-27T09:00:00.000Z",
+    "units_sold":     1593,
+    "unit_price":     9.33,
+    "unit_cost":      6.92,
+    "total_revenue":  14862.69,
+    "total_cost":     11023.56,
+    "total_profit":   3839.13
+}
