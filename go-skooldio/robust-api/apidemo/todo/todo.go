@@ -29,4 +29,7 @@ func (t *TodoHandler) NewTask(c *gin.Context) {
 		})
 		return
 	}
+
+	// Create with gorm
+
 }

@@ -1,6 +1,9 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"updev.co.th/apidemo/todo"
+)
 
 func main() {
 	r := gin.Default()
@@ -9,5 +12,11 @@ func main() {
 			"message": "pong",
 		})
 	})
+
+	handler := todo.NewTodoHandler()
+	r.POST("/todos", handler.NewTask)
+
 	r.Run()
 }
+
+// https://github.com/go-playground/validator
