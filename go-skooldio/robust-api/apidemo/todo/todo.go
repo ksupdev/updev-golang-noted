@@ -29,7 +29,7 @@ func (t *TodoHandler) NewTask(c *gin.Context) {
 		})
 		return
 	}
-
+	c.JSON(http.StatusOK, gin.H{"success": "create data complete"})
 	// Create with gorm
 
 }

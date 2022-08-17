@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"updev.co.th/apidemo/auth"
 	"updev.co.th/apidemo/todo"
 )
 
@@ -12,6 +13,8 @@ func main() {
 			"message": "pong",
 		})
 	})
+
+	r.GET("/tokenz", auth.AccessToken)
 
 	handler := todo.NewTodoHandler()
 	r.POST("/todos", handler.NewTask)
