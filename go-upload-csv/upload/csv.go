@@ -67,10 +67,10 @@ func saveFile(fileHeader *multipart.FileHeader, dir string) error {
 
 	// Validate Content type of buffer
 	fileType := http.DetectContentType(buff)
-	// fmt.Printf("----- %v -----", fileType)
-	if fileType != "text/plain; charset=utf-8" {
-		return fmt.Errorf("The provided file format is not allowed. Please upload CSV file only")
-	}
+	fmt.Printf("----- %v -----", fileType)
+	// if fileType != "text/plain; charset=utf-8" {
+	// 	return fmt.Errorf("The provided file format is not allowed. Please upload CSV file only")
+	// }
 
 	// ?
 	_, err = file.Seek(0, io.SeekStart)

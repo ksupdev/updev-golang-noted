@@ -83,7 +83,7 @@ func main() {
 }
 
 func action(data string) {
-	// log.Printf("v : %v \n", data)
+	log.Printf("v : %v \n", data)
 	row := strings.Split(data, ",")
 	log.Printf("v : %v = %v \n", row[0], row[1])
 	// return nil

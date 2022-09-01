@@ -68,7 +68,6 @@ func (exeHdl *ExeHdl) readfile(filePath string, handle func(val string)) error {
 		return err
 	}
 	buf := bufio.NewReader(f)
-
 	for {
 		line, _, err := buf.ReadLine()
 		if err != nil {
