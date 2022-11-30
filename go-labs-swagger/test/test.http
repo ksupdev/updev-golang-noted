@@ -1,0 +1,2 @@
+###  Get SF Access token (Integration)
+GET http://localhost:8081/api/v1/bar/2
